@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+</head>
+<body>
+    <form>
+        <label for="title">Title</label>
+        <input type="text" id="title">
+        <br><br>
+        <label for="description">Description</label>
+        <input type="text" id="description">
+        <br><br>
+        <button onclick="handleClick()">Add Todo</button>
+    </form>
+
+    <br><br>
+
+    <table border="1" id="todo-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody id="todo-body">
+            <!-- Todo items will be appended here -->
+        </tbody>
+    </table>
+
+    <script>
+
+        async function getData(){
+            const data = await fetch("http://localhost:3000/todos", {method:"GET"});
+            const json = await data.json();
+            console.log(json);
+            displayTodos(json);
+        }
+
+        function displayTodos(json){
+            const tbody = document.getElementById("todo-body");
+            tbody.innerHTML = ""; // Clear the table body
+
+            json.forEach(todo => {
+                const row = document.createElement("tr");
+                const titleCell = document.createElement("td");
+                const descriptionCell = document.createElement("td");
+                
+                titleCell.textContent = todo.title;
+                descriptionCell.textContent = todo.description;
+                
+                row.appendChild(titleCell);
+                row.appendChild(descriptionCell);
+
+                tbody.appendChild(row);
+            });
+        }
+
+        getData();
+
+        async function handleClick(){
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+
+            const todo = { title, description };
+            const response = await fetch("http://localhost:3000/todos", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(todo)
+            });
+
+            getData();
+        }
+
+    </script>
+</body>
+</html>
