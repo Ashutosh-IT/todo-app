@@ -6,6 +6,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
+
+
 app.get("/todos",(req, res)=>{
     fs.readFile("todos.json","utf-8",(err, data)=>{
         if(err) res.status(401).send(err);
@@ -13,6 +15,8 @@ app.get("/todos",(req, res)=>{
         res.status(200).send(json);
     });
 });
+
+
 
 app.post("/todos",(req, res)=>{
 
@@ -36,6 +40,33 @@ app.post("/todos",(req, res)=>{
         res.status(200).send(newTodo);
 
     });
+});
+
+
+
+app.delete("/todos", (req,res)=>{
+
+    const id = req.body.id;
+    
+    fs.readFile("todos.json","utf-8",(err, data)=>{
+        if(err) res.status(401).send(err);
+        const json = JSON.parse(data);
+
+        const newData = [];
+        for(var i=0; i<json.length; i++){
+            if(json[i].id !== id ){
+                newData.push(json[i]);
+            }
+        }
+
+        fs.writeFile("todos.json",JSON.stringify(newData),(err)=>{
+            if(err)
+            res.status(401).send(err);
+        });
+
+        res.status(200).send("Deleted");
+    });
+
 });
 
 

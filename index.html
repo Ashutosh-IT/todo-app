@@ -23,6 +23,7 @@
             <tr>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody id="todo-body">
@@ -39,6 +40,17 @@
             displayTodos(json);
         }
 
+        async function deleteTodo(id){
+            const response = await fetch("http://localhost:3000/todos", {
+                method : "DELETE",
+                body: JSON.stringify({id : id}),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            getData();
+        }
+
         function displayTodos(json){
             const tbody = document.getElementById("todo-body");
             tbody.innerHTML = ""; // Clear the table body
@@ -47,12 +59,16 @@
                 const row = document.createElement("tr");
                 const titleCell = document.createElement("td");
                 const descriptionCell = document.createElement("td");
+                const deleteButton = document.createElement("button");
+                deleteButton.innerHTML = "Delete";
+                deleteButton.setAttribute("onclick", "deleteTodo(" + todo.id + ")");
                 
                 titleCell.textContent = todo.title;
                 descriptionCell.textContent = todo.description;
                 
                 row.appendChild(titleCell);
                 row.appendChild(descriptionCell);
+                row.appendChild(deleteButton);
 
                 tbody.appendChild(row);
             });
