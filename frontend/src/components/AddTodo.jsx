@@ -27,6 +27,9 @@ const AddTodo = ({setTodos}) => {
 
     if (response.ok) {
       setTodos(todos => [...todos, todo]);
+      title.current.value = ""
+      description.current.value = ""
+
     }
 
   }
