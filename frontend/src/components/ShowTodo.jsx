@@ -1,57 +1,90 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Paper,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  tableCellClasses,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 const ShowTodo = () => {
 
-  const [todos,setTodos] = useState([]);
+  const [todos, setTodos] = useState([]);
 
-  const deleteTodo = async(id)=>{
-
+  const deleteTodo = async (id) => {
     const response = await fetch("http://localhost:3000/todos", {
-      method : "DELETE",
-      body: JSON.stringify({id : id}),
+      method: "DELETE",
+      body: JSON.stringify({ id: id }),
       headers: {
-          "Content-Type": "application/json"
-      }
-    })
+        "Content-Type": "application/json",
+      },
+    });
 
     getTodos();
+  };
 
-  }
-
-  const getTodos = async()=>{
+  const getTodos = async () => {
     const response = await fetch("http://localhost:3000/todos");
     const data = await response.json();
     setTodos(data);
-  }
+  };
 
-  useEffect(()=>{
+
+  useEffect(() => {
     getTodos();
-  },[]);
+  }, []);
+
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
 
   return (
     <div>
-        <table style={{border:"1px solid black"}}>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Delete</th>
-            </tr>
+      <TableContainer sx={{ width: 700 }} component={Paper}>
+        <Table sx={{ width: 700 }}>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Title</StyledTableCell>
+              <StyledTableCell align="center">Description</StyledTableCell>
+              <StyledTableCell align="center">Delete</StyledTableCell>
+            </TableRow>
+          </TableHead>
 
-            {
-                todos.map((todo)=>{
-                    return <tr>
-                                <td>{todo.title}</td>
-                                <td>{todo.description}</td>
-                                <td>
-                                    <button onClick={()=>deleteTodo(todo.id)}>Delete</button>
-                                </td>
-                           </tr>
-                })
-            }
-            
-        </table>
+          <TableBody>
+            {todos.map((todo) => {
+              return (
+                <TableRow>
+                  <TableCell align="center">{todo.title}</TableCell>
+                  <TableCell align="center">{todo.description}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="outlined"
+                      onClick={() => deleteTodo(todo.id)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
-  )
-}
+  );
+};
 
-export default ShowTodo
+export default ShowTodo;

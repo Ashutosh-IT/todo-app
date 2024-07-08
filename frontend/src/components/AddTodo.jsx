@@ -1,3 +1,4 @@
+import { Button, TextField } from '@mui/material';
 import React, { useRef } from 'react'
 
 const AddTodo = () => {
@@ -29,19 +30,19 @@ const AddTodo = () => {
   return (
     <div>
 
-      <form>
-        <label htmlFor="title">Title</label>
-        <input type="text" id="title" ref={title}/>
+        <TextField id="title" label="Title" variant="outlined" inputRef={title}/>
 
         <br/><br/>
 
-        <label htmlFor="description">Description</label>
-        <input type="text" id="description" ref={description}/>
+        <TextField id="description" label="Description" variant="outlined" inputRef={description}/>
 
         <br/><br/>
 
-        <button onClick={addtodo}>Add Todo</button>
-      </form>
+        <Button variant="contained" onClick={()=>addtodo()}>
+          Add Todo
+        </Button>
+
+      
 
     </div>
   )
