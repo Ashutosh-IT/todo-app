@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import React, { useRef } from 'react'
 
-const AddTodo = () => {
+const AddTodo = ({setTodos}) => {
 
 
   const title = useRef();
@@ -24,6 +24,10 @@ const AddTodo = () => {
       },
       body: JSON.stringify(todo)
     });
+
+    if (response.ok) {
+      setTodos(todos => [...todos, todo]);
+    }
 
   }
 
