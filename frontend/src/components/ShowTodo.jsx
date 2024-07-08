@@ -12,9 +12,7 @@ import {
   TableRow,
 } from "@mui/material";
 
-const ShowTodo = () => {
-
-  const [todos, setTodos] = useState([]);
+const ShowTodo = ({todos, setTodos}) => {
 
   const deleteTodo = async (id) => {
     const response = await fetch("http://localhost:3000/todos", {
