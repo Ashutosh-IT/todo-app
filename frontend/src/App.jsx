@@ -4,7 +4,7 @@ import ShowTodo from "./components/ShowTodo";
 import { Typography } from "@mui/material";
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([])
   return (
     <div>
       <h1>TODO APP</h1>
