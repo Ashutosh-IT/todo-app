@@ -29,7 +29,7 @@ const AddTodo = ({setTodos}) => {
       setTodos(todos => [...todos, todo]);
       title.current.value = ""
       description.current.value = ""
-
+      
     }
 
   }
